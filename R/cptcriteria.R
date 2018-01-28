@@ -34,26 +34,20 @@
 }
 
 .selectBestMod <- function(critoptim, criteria){
-  if( criteria == "RMSE"){
+  if( criteria %in% c("RMSE", "MAPE")){
     nummod <- which.min(critoptim)
   }
-  if( criteria == "R2"){
-    nummod <- which.max(critoptim)
-  }
-  if( criteria == "AUC"){
+  if(  criteria %in% c("R2", "AUC")){
     nummod <- which.max(critoptim)
   }
   nummod
 }
 
 .addcrit <- function (criteria, modoptim){
-  if (criteria == "RMSE"| criteria =="R2" | criteria == "MAPE"){
-    RMSE <- .compute_criteria(modoptim, "RMSE")
-    R2 <- .compute_criteria(modoptim, "R2")
-    MAPE <- .compute_criteria(modoptim, "MAPE")
-    modoptim$RMSE <- RMSE
-    modoptim$R2 <- R2
-    modoptim$MAPE <- MAPE
+  if (criteria %in% c("RMSE", "R2",  "MAPE")){
+    modoptim$RMSE <- .compute_criteria(modoptim, "RMSE")
+    modoptim$R2 <-  .compute_criteria(modoptim, "R2")
+    modoptim$MAPE <- .compute_criteria(modoptim, "MAPE")
   }
   if(criteria == "AUC"){
     AUC <- .compute_criteria(modoptim, "AUC")
