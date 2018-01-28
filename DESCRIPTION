@@ -10,7 +10,9 @@ Authors@R: c(
 Maintainer: The package maintainer <anaislaot.pro@gmail.com>
 Depends: 
   randomForest,
-  AUC
+  AUC,
+  rAmCharts,
+  pipeR
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

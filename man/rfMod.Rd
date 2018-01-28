@@ -6,8 +6,7 @@
 \usage{
 rfMod(x, y, cvcol, ntree = 50, mtry = if (!is.null(y) && !is.factor(y))
   max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL,
-  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1, importance = FALSE,
-  criterion = "RMSE")
+  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1, criterion = "RMSE")
 }
 \arguments{
 \item{x}{\code{data.frame},  Predictor variables.}
@@ -23,8 +22,6 @@ rfMod(x, y, cvcol, ntree = 50, mtry = if (!is.null(y) && !is.factor(y))
 \item{maxnodes}{\code{numeric}, Maximum number of terminal nodes trees in the forest can have. If not given, trees are grown to the maximum possible (subject to limits by nodesize).}
 
 \item{nodesize}{\code{numeric}, Minimum size of terminal nodes. Setting this number larger causes smaller trees to be grown (and thus take less time). Default is 5.}
-
-\item{importance}{\code{numeric}, Should importance of predictors be assessed? Default is FALSE.}
 
 \item{criterion}{\code{character}, Criterion used to select the best model among the grid of hyperparameters.It can be : "RMSE", "R2", "MAPE" or "AUC".}
 }

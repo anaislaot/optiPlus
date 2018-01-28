@@ -11,7 +11,6 @@
 #' @param mtry \code{numeric}, Number of variables randomly sampled as candidates at each split. Note that the default values are different for classification (sqrt(p) where p is number of variables in x) and regression (p/3).
 #' @param maxnodes \code{numeric}, Maximum number of terminal nodes trees in the forest can have. If not given, trees are grown to the maximum possible (subject to limits by nodesize).
 #' @param nodesize \code{numeric}, Minimum size of terminal nodes. Setting this number larger causes smaller trees to be grown (and thus take less time). Default is 5.
-#' @param importance \code{numeric}, Should importance of predictors be assessed? Default is FALSE.
 #' @param criterion \code{character}, Criterion used to select the best model among the grid of hyperparameters.It can be : "RMSE", "R2", "MAPE" or "AUC".
 #'
 #' @return A list containing :
@@ -49,7 +48,7 @@
 #'
 rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
   max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
-  importance =FALSE, criterion = "RMSE"){
+  criterion = "RMSE"){
 
   if(is.null(maxnodes)){maxnodes <- NA}
   param <- expand.grid(ntree= ntree, mtry = mtry, maxnodes = maxnodes, nodesize = nodesize)
@@ -59,7 +58,7 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
     z <- data.frame(t(z))
 
     model <- .predRF(x = x, y = y, cvcol = cvcol, ntree = z$ntree, mtry = z$mtry
-                     , maxnodes = z$maxnodes, nodesize = z$nodesize, importance = TRUE)
+                     , maxnodes = z$maxnodes, nodesize = z$nodesize)
     model$param <- z #pour recuperer les parametres associés au modèle
     return(model)
   }
@@ -81,8 +80,7 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
 
 #' @importFrom randomForest randomForest
 .predRF <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
-  max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
-  importance =FALSE){
+  max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1){
 
   if(!is.null(maxnodes)){if(is.na(maxnodes)){maxnodes <- NULL}}
   #gerer regression ou classif
@@ -99,7 +97,7 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
   for (i in unique(cvcol)){
     mod.rf <- randomForest(x = x[which(cvcol!=i), ], y = y[which(cvcol!=i)],
                            ntree = ntree, mtry = mtry, maxnodes = maxnodes,
-                           nodesize = nodesize, importance = importance)
+                           nodesize = nodesize)
     if(!is.factor(y)){
       cvfitted[which(cvcol==i)] = predict(mod.rf, newdata = x[which(cvcol==i),])
     }else{
@@ -109,7 +107,7 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
   }
   modglob <- randomForest(x = x, y = y,
                           ntree = ntree, mtry = mtry, maxnodes = maxnodes,
-                          nodesize = nodesize, importance = importance)
+                          nodesize = nodesize, importance = TRUE)
   if(!is.factor(y)){
     ypred <- list(y = y, yp = cvfitted, cvcol = cvcol, model = modglob)
   }else{
@@ -118,6 +116,7 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
                   confMat = matconf)
   }
 
+  ##Add a class to list of output object
   class(ypred) <- c("optiPlusModel", class(ypred))
 
   return(ypred)
