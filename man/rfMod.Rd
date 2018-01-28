@@ -36,7 +36,7 @@ A list containing :
     \item{predicted values (yp)}
     \item{the cross-validation column (cvcol)}
     \item{the optimized parameters (ntree, mtry, maxnodes, nodesize)}
-    \item{the criteria (RMSE, R2, AUC...)}
+    \item{the criteria (RMSE, R2, MAPE, AUC...)}
   }
 }
 \description{

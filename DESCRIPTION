@@ -1,4 +1,4 @@
-Package: optiMod
+Package: optiPlus
 Type: Package
 Title: Launch model with shiny
 Description: Launch model with diferents methods by user interface.
@@ -6,7 +6,7 @@ Version: 0.1.0
 Authors@R: c(
     person("Anais", "Laot", role = c("aut", "cre"),
     email = "anaislaot.pro@gmail.com"),
-    person("Titouan", "RObert", role = c("aut")))
+    person("Titouan", "Robert", role = c("aut")))
 Maintainer: The package maintainer <anaislaot.pro@gmail.com>
 Depends: 
   randomForest,
