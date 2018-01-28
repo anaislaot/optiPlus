@@ -2,19 +2,44 @@
 % Please edit documentation in R/graph.R
 \name{plot.optiPlusModel}
 \alias{plot.optiPlusModel}
-\title{Plot}
+\title{Plot for optiPlusModel class}
 \usage{
 plot.optiPlusModel(x, type, digits = 2, color = "#FF8000")
 }
 \arguments{
-\item{x}{\code{optiPlusModel}.}
+\item{x}{\code{optiPlusModel}. An object of class optiPlusModel \link{\code{rfMod}}}
 
-\item{type}{\code{character}.}
+\item{type}{\code{character}. To choose the type of plot :
+\itemize{
+  \item{"obsPred" : plot Predicted vs Observed}
+  \item{"importance" : plot of Variable Importance}
+}}
 
-\item{digits}{\code{numeric}}
+\item{digits}{\code{numeric}. integer indicating the number of decimal places (round) or significant digits (signif) to be used.}
 
-\item{color}{\code{character}}
+\item{color}{\code{character}. Choose color in hexadecimal.}
 }
 \description{
-Plot
+plot.optiPlusModel creates plots for optiPlusModel class according to the specified type
+}
+\examples{
+
+data(mtcars)
+
+#Creation of cross-validation column :
+cv <- createCv(mtcars, columName = "cyl")
+
+#Data
+y <- "mpg"
+ycolumnindex <- names(mtcars) == "mpg"
+x <- mtcars[, !ycolumnindex]
+y <- mtcars[, ycolumnindex]
+
+mod <- rfMod(x = x, y = y, cvcol = cv,
+ ntree= c(50, 100), mtry = c(3,4),
+  nodesize = c(3, 4, 5),  criterion = "RMSE")
+
+plot.optiPlusModel <- function(mod, type = "obsPred", digits = 3, color = "#00b300")
+plot.optiPlusModel <- function(mod, type = "importance", color = "#00b300")
+
 }
