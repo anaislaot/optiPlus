@@ -12,7 +12,7 @@
 #' @param maxnodes \code{numeric}, Maximum number of terminal nodes trees in the forest can have. If not given, trees are grown to the maximum possible (subject to limits by nodesize).
 #' @param nodesize \code{numeric}, Minimum size of terminal nodes. Setting this number larger causes smaller trees to be grown (and thus take less time). Default is 5.
 #' @param importance \code{numeric}, Should importance of predictors be assessed? Default is FALSE.
-#' @param criterion \code{character}, Criterion used to select the best model among the grid of hyperparameters.It can be : "RMSE", "R2" or "AUC".
+#' @param criterion \code{character}, Criterion used to select the best model among the grid of hyperparameters.It can be : "RMSE", "R2", "MAPE" or "AUC".
 #'
 #' @return A list containing :
 #'
@@ -47,7 +47,7 @@
 #' @export
 #'
 #'
-rfMod<- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
+rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
   max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
   importance =FALSE, criterion = "RMSE"){
 
