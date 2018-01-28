@@ -31,12 +31,17 @@
     AUC = auc(roc( listPred$prob[,2],listPred$y))
     sortie <- AUC
   }
+
+  if(criterion == "CONF"){
+    error = 1-sum(diag(listPred$confMat))/sum(listPred$confMat)
+    sortie <- error
+  }
   return(sortie)
 }
 
 
 .selectBestMod <- function(critoptim, criterion){
-  if( criterion %in% c("RMSE", "MAPE")){
+  if( criterion %in% c("RMSE", "MAPE", "CONF")){
     nummod <- which.min(critoptim)
   }
   if(  criterion %in% c("R2", "AUC")){
@@ -53,8 +58,12 @@
     modoptim$MAPE <- .compute_criteria(modoptim, "MAPE")
   }
   if(criterion == "AUC"){
-    AUC <- .compute_criteria(modoptim, "AUC")
-    modoptim$AUC <- AUC
+    modoptim$AUC <- .compute_criteria(modoptim, "AUC")
+    modoptim$errorConf <- .compute_criteria(modoptim, "CONF")
   }
+  if(criterion == "CONF"){
+    modoptim$errorConf <- .compute_criteria(modoptim, "CONF")
+  }
+
   modoptim
 }

@@ -45,6 +45,23 @@ test_that("test rfMod R2", {
 
 test_that("test rfMod AUC", {
   data(iris)
+  data <- iris[ which(iris$Species!= "setosa"), ]
+  cv <- sample(1:8, nrow(data), replace = TRUE)
+  #Data
+  y <- "Species"
+  ycolumnindex <- names(data) == "Species"
+  x <- data[, !ycolumnindex]
+  y <- data[, ycolumnindex]
+  y <- as.factor(as.character(y))
+
+  test1 <- rfMod(x = x, y = y, cvcol= cv,
+                 ntree= c(1, 100),  criterion = "AUC")
+  expect_true(test1$param$ntree == 100)
+})
+
+
+test_that("test rfMod CONF", {
+  data(iris)
   cv <- sample(1:8, nrow(iris), replace = TRUE)
   #Data
   y <- "Species"
@@ -53,7 +70,7 @@ test_that("test rfMod AUC", {
   y <- iris[, ycolumnindex]
 
   test1 <- rfMod(x = x, y = y, cvcol= cv,
-                 ntree= c(1, 100),  criterion = "AUC")
+                 ntree= c(1, 100),  criterion = "CONF")
   expect_true(test1$param$ntree == 100)
 })
 

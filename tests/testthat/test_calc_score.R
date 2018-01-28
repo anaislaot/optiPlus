@@ -35,4 +35,11 @@ test_that("test auc", {
 
 })
 
-
+test_that("test conf", {
+  listPred <- list()
+  listPred$y <- c(0,1,0,1,0)
+  listPred$yp <- c(0,0,0,1,0)
+  listPred$confMat <- table(listPred$y, listPred$yp)
+  totest <- round(.compute_criteria(listPred, "CONF"), 1) == 0.2
+  expect_true(totest)
+})

@@ -32,3 +32,11 @@ test_that("test select best mod with AUC", {
   AUC2 <- .selectBestMod(x, "AUC")
   expect_true(AUC1 == AUC2)
 })
+
+test_that("test select best mod with CONF", {
+  x <- c(1650, 2000, 1350, 1593, 2010)
+  conf1 <- which.min(x)
+
+  conf2 <- .selectBestMod(x, "CONF")
+  expect_true(conf1 == conf2)
+})

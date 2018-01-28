@@ -110,11 +110,12 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
   modglob <- randomForest(x = x, y = y,
                           ntree = ntree, mtry = mtry, maxnodes = maxnodes,
                           nodesize = nodesize, importance = importance)
-
   if(!is.factor(y)){
     ypred <- list(y = y, yp = cvfitted, cvcol = cvcol, model = modglob)
   }else{
-    ypred <- list(y = y, yp = cvfitted2, prob = cvfitted, cvcol = cvcol, model = modglob)
+    matconf <- table(y, cvfitted2)
+    ypred <- list(y = y, yp = cvfitted2, prob = cvfitted, cvcol = cvcol, model = modglob,
+                  confMat = matconf)
   }
 
   class(ypred) <- c("optiPlusModel", class(ypred))
