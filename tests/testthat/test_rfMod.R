@@ -14,6 +14,21 @@ test_that("test rfMod RMSE", {
   expect_true(test1$param$ntree == 100)
 })
 
+
+test_that("test rfMod MAPE", {
+  data(mtcars)
+  cv <- sample(1:8, nrow(mtcars), replace = TRUE)
+  #Data
+  y <- "mpg"
+  ycolumnindex <- names(mtcars) == "mpg"
+  x <- mtcars[, !ycolumnindex]
+  y <- mtcars[, ycolumnindex]
+
+  test1 <- rfMod(x = x, y = y, cvcol= cv,
+                 ntree= c(1, 100),  criterion = "MAPE")
+  expect_true(test1$param$ntree == 100)
+})
+
 test_that("test rfMod R2", {
   data(mtcars)
   cv <- sample(1:8, nrow(mtcars), replace = TRUE)
