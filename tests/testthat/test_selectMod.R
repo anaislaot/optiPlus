@@ -16,6 +16,15 @@ test_that("test select best mod with R2", {
   expect_true(R2.1 == R2.2)
 })
 
+test_that("test select best mod with MAPE", {
+  x <- c(0.2, 0.5, 0.1, 0.8, 0.81)
+  sc1 <- which.min(x)
+
+  sc2 <- .selectBestMod(x, "MAPE")
+  expect_true(sc1 == sc2)
+})
+
+
 test_that("test select best mod with AUC", {
   x <- c(0.2, 0.5, 0.1, 0.8, 0.81)
   AUC1 <- which.max(x)
