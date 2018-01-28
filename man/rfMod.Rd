@@ -26,7 +26,7 @@ rfMod(x, y, cvcol, ntree = 50, mtry = if (!is.null(y) && !is.factor(y))
 
 \item{importance}{\code{numeric}, Should importance of predictors be assessed? Default is FALSE.}
 
-\item{criterion}{\code{character}, Criterion used to select the best model among the grid of hyperparameters.It can be : "RMSE", "R2" or "AUC".}
+\item{criterion}{\code{character}, Criterion used to select the best model among the grid of hyperparameters.It can be : "RMSE", "R2", "MAPE" or "AUC".}
 }
 \value{
 A list containing :

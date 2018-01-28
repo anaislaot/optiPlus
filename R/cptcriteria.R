@@ -7,6 +7,10 @@
     RMSE = sqrt(mean((listPred$y-listPred$yp)^2))
     sortie <- RMSE
   }
+  if(criteria == "MAPE"){
+    sortie <- mean(abs((listPred$y-listPred$yp)/listPred$y))
+  }
+
   if(criteria == "R2"){
     if(!is.factor(listPred$y)){
       n<-length(listPred$y)
@@ -43,11 +47,13 @@
 }
 
 .addcrit <- function (criteria, modoptim){
-  if (criteria == "RMSE"| criteria =="R2"){
+  if (criteria == "RMSE"| criteria =="R2" | criteria == "MAPE"){
     RMSE <- .compute_criteria(modoptim, "RMSE")
     R2 <- .compute_criteria(modoptim, "R2")
+    MAPE <- .compute_criteria(modoptim, "MAPE")
     modoptim$RMSE <- RMSE
     modoptim$R2 <- R2
+    modoptim$MAPE <- MAPE
   }
   if(criteria == "AUC"){
     AUC <- .compute_criteria(modoptim, "AUC")

@@ -12,6 +12,16 @@ test_that("test rmse", {
   expect_true(totest)
 })
 
+test_that("test mape", {
+  listPred <- list()
+  listPred$y <- c(1,2,3,4,5)
+  listPred$yp <- c(2,4,5,6,3)
+  totest <- round(.compute_criteria(listPred, "MAPE") , 4) == 0.7133
+  expect_true(totest)
+})
+
+
+
 test_that("test auc", {
   library(AUC)
   data("churn")
