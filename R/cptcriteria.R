@@ -1,3 +1,4 @@
+#' @importFrom AUC auc roc
 .compute_criteria <- function(listPred, criteria){
   #calcul pour R² cross valide :
 
@@ -26,4 +27,31 @@
     sortie <- AUC
   }
   return(sortie)
+}
+
+.selectBestMod <- function(critoptim, criteria){
+  if( criteria == "RMSE"){
+    nummod <- which.min(critoptim)
+  }
+  if( criteria == "R2"){
+    nummod <- which.max(critoptim)
+  }
+  if( criteria == "AUC"){
+    nummod <- which.max(critoptim)
+  }
+  nummod
+}
+
+.addcrit <- function (criteria, modoptim){
+  if (criteria == "RMSE"| criteria =="R2"){
+    RMSE <- .compute_criteria(modoptim, "RMSE")
+    R2 <- .compute_criteria(modoptim, "R2")
+    modoptim$RMSE <- RMSE
+    modoptim$R2 <- R2
+  }
+  if(criteria == "AUC"){
+    AUC <- .compute_criteria(modoptim, "AUC")
+    modoptim$AUC <- AUC
+  }
+  modoptim
 }
