@@ -1,9 +1,9 @@
 #' @title Plot for optiPlusModel class
 #'
-#' @description plot.optiPlusModel creates plots for optiPlusModel class according to the specified type
+#' @description plot creates plots for optiPlusModel class according to the specified type
 #'
 #'
-#' @param x \code{optiPlusModel}. An object of class optiPlusModel \link{\code{rfMod}}
+#' @param x \code{optiPlusModel}. An object of class optiPlusModel.
 #' @param type \code{character}. To choose the type of plot :
 #'   \itemize{
 #'     \item{"obsPred" : plot Predicted vs Observed}
@@ -30,8 +30,8 @@
 #'  ntree= c(50, 100), mtry = c(3,4),
 #'   nodesize = c(3, 4, 5),  criterion = "RMSE")
 #'
-#' plot.optiPlusModel <- function(mod, type = "obsPred", digits = 3, color = "#00b300")
-#' plot.optiPlusModel <- function(mod, type = "importance", color = "#00b300")
+#' plot(mod, type = "obsPred", digits = 3, color = "#00b300")
+#' plot(mod, type = "importance", color = "#00b300")
 #'
 #' @importFrom stats predict
 #' @export

@@ -7,7 +7,7 @@
 plot.optiPlusModel(x, type, digits = 2, color = "#FF8000")
 }
 \arguments{
-\item{x}{\code{optiPlusModel}. An object of class optiPlusModel \link{\code{rfMod}}}
+\item{x}{\code{optiPlusModel}. An object of class optiPlusModel.}
 
 \item{type}{\code{character}. To choose the type of plot :
 \itemize{
@@ -20,7 +20,7 @@ plot.optiPlusModel(x, type, digits = 2, color = "#FF8000")
 \item{color}{\code{character}. Choose color in hexadecimal.}
 }
 \description{
-plot.optiPlusModel creates plots for optiPlusModel class according to the specified type
+plot creates plots for optiPlusModel class according to the specified type
 }
 \examples{
 
@@ -39,7 +39,7 @@ mod <- rfMod(x = x, y = y, cvcol = cv,
  ntree= c(50, 100), mtry = c(3,4),
   nodesize = c(3, 4, 5),  criterion = "RMSE")
 
-plot.optiPlusModel <- function(mod, type = "obsPred", digits = 3, color = "#00b300")
-plot.optiPlusModel <- function(mod, type = "importance", color = "#00b300")
+plot(mod, type = "obsPred", digits = 3, color = "#00b300")
+plot(mod, type = "importance", color = "#00b300")
 
 }
