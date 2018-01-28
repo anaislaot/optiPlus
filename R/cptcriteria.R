@@ -1,13 +1,13 @@
 #' @importFrom AUC auc roc
-.compute_criteria <- function(listPred, criteria){
+.compute_criteria <- function(listPred, criterion){
   #calcul pour R² cross valide :
 
   #criteres
-  if(criteria == "RMSE"){
+  if(criterion == "RMSE"){
     RMSE = sqrt(mean((listPred$y-listPred$yp)^2))
     sortie <- RMSE
   }
-  if(criteria == "R2"){
+  if(criterion == "R2"){
     if(!is.factor(listPred$y)){
       n<-length(listPred$y)
       moy <- rep(0,n)
@@ -22,34 +22,34 @@
     R2 = 1 - (sum((listPred$y-listPred$yp)^2)/sum((listPred$y-moy)^2))
     sortie <- R2
   }
-  if(criteria == "AUC"){
+  if(criterion == "AUC"){
     AUC = auc(roc( listPred$prob[,2],listPred$y))
     sortie <- AUC
   }
   return(sortie)
 }
 
-.selectBestMod <- function(critoptim, criteria){
-  if( criteria == "RMSE"){
+.selectBestMod <- function(critoptim, criterion){
+  if( criterion == "RMSE"){
     nummod <- which.min(critoptim)
   }
-  if( criteria == "R2"){
+  if( criterion == "R2"){
     nummod <- which.max(critoptim)
   }
-  if( criteria == "AUC"){
+  if( criterion == "AUC"){
     nummod <- which.max(critoptim)
   }
   nummod
 }
 
-.addcrit <- function (criteria, modoptim){
-  if (criteria == "RMSE"| criteria =="R2"){
+.addcrit <- function (criterion, modoptim){
+  if (criterion == "RMSE"| criterion =="R2"){
     RMSE <- .compute_criteria(modoptim, "RMSE")
     R2 <- .compute_criteria(modoptim, "R2")
     modoptim$RMSE <- RMSE
     modoptim$R2 <- R2
   }
-  if(criteria == "AUC"){
+  if(criterion == "AUC"){
     AUC <- .compute_criteria(modoptim, "AUC")
     modoptim$AUC <- AUC
   }

@@ -1,9 +1,7 @@
-#fonction context() fait un print dans mes tests
-#pour lancer le test : ctrl+ shift+t
+
 
 context("fonction .compute_criteria")
 
-#fonction test_that, objets crees dedans en sont pas dispo par la suite, cree un environnement temporaire
 test_that("test rmse", {
   listPred <- list()
   listPred$y <- c(1,2,3,4,5)
@@ -27,7 +25,4 @@ test_that("test auc", {
 
 })
 
-# mean({
-#   to <- c(1,2)
-#   to
-# }) #permet d'executer des arguments avant d'executer la fonction
+
