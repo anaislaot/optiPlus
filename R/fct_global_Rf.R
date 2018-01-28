@@ -21,7 +21,7 @@
 #'     \item{predicted values (yp)}
 #'     \item{the cross-validation column (cvcol)}
 #'     \item{the optimized parameters (ntree, mtry, maxnodes, nodesize)}
-#'     \item{the criteria (RMSE, R2, AUC...)}
+#'     \item{the criteria (RMSE, R2, MAPE, AUC...)}
 #'   }
 #'
 #' @examples
@@ -107,10 +107,14 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
       cvfitted2[which(cvcol==i) ] = predict(mod.rf, newdata = x[which(cvcol==i),], type = "response")
     }
   }
+  modglob <- randomForest(x = x, y = y,
+                          ntree = ntree, mtry = mtry, maxnodes = maxnodes,
+                          nodesize = nodesize, importance = importance)
+
   if(!is.factor(y)){
-    ypred <- list(y = y, yp = cvfitted, cvcol = cvcol)
+    ypred <- list(y = y, yp = cvfitted, cvcol = cvcol, model = modglob)
   }else{
-    ypred <- list(y = y, yp = cvfitted2, prob = cvfitted, cvcol = cvcol)
+    ypred <- list(y = y, yp = cvfitted2, prob = cvfitted, cvcol = cvcol, model = modglob)
   }
 
   class(ypred) <- c("optiPlusModel", class(ypred))
