@@ -112,5 +112,8 @@ rfMod<- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
   }else{
     ypred <- list(y = y, yp = cvfitted2, prob = cvfitted, cvcol = cvcol)
   }
+
+  class(ypred) <- c("optiPlusModel", class(ypred))
+
   return(ypred)
 }
