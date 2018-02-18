@@ -48,22 +48,44 @@
 #'
 rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
   max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
-  criterion = "RMSE"){
+  criterion = "RMSE", nbcore = NULL){
 
   if(is.null(maxnodes)){maxnodes <- NA}
   param <- expand.grid(ntree= ntree, mtry = mtry, maxnodes = maxnodes, nodesize = nodesize)
 
+  if(!is.null(nbcore)){
+  cl <- makeCluster(nbcore)
+  clusterEvalQ(cl, expr = {
+    require(optiPlus)
+    require(randomForest)
+  })
+  clusterExport(cl,
+                varlist = c("x", "y", "cvcol"), envir = environment())
+  }else{
+    cl = NULL
+  }
   #boucle qui calcul tous les modeles en fonction des parametres de la grille
   modelList <- apply(param, 1, function(z){
     z <- data.frame(t(z))
+    ntree = z$ntree
+    mtry = z$mtry
+    maxnodes = z$maxnode
+    nodesize = z$nodesize
+    if(!is.null(nbcore)){
+    clusterExport(cl,
+                  varlist = c("ntree","mtry", "maxnodes", "nodesize"), envir = environment())
+    }
 
     model <- .predRF(x = x, y = y, cvcol = cvcol, ntree = z$ntree, mtry = z$mtry
-                     , maxnodes = z$maxnodes, nodesize = z$nodesize)
+                     , maxnodes = z$maxnodes, nodesize = z$nodesize, cl = cl)
     model$param <- z #pour recuperer les parametres associés au modèle
     return(model)
   }
   )
 
+  if(!is.null(nbcore)){
+  stopCluster(cl)
+  }
   #boucle qui calcul tous le critere d'optim pour chaque modele
   critoptim <- unlist(lapply(modelList, function(x){
     .compute_criteria(x, criterion)
@@ -80,39 +102,56 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
 
 #' @importFrom randomForest randomForest
 .predRF <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
-  max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1){
+  max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
+  cl = NULL){
 
   if(!is.null(maxnodes)){if(is.na(maxnodes)){maxnodes <- NULL}}
-  #gerer regression ou classif
-  if(!is.factor(y)){
-    n = nrow(x)
-    cvfitted = rep(0,n)
-  }else{#cas ou en classif il y a plus de 2 classes à prédire
-    n = nrow(x)
-    m = nlevels(y)
-    cvfitted = matrix(nrow= n, ncol= m)
-    cvfitted2 = factor(rep(NA,n), levels = levels(y))
-  }
 
-  for (i in unique(cvcol)){
-    mod.rf <- randomForest(x = x[which(cvcol!=i), ], y = y[which(cvcol!=i)],
+  if(!is.null(cl)){
+  model <- parSapply(cl, unique(cvcol), function(d){
+    mod.rf <- randomForest(x = x[which(cvcol!=d), ], y = y[which(cvcol!=d)],
                            ntree = ntree, mtry = mtry, maxnodes = maxnodes,
                            nodesize = nodesize)
+
     if(!is.factor(y)){
-      cvfitted[which(cvcol==i)] = predict(mod.rf, newdata = x[which(cvcol==i),])
+      cvfitted <- predict(mod.rf, newdata = x[which(cvcol ==d),])
+      return(data.frame(yp=cvfitted, ord = which(cvcol ==d)))
     }else{
-      cvfitted[which(cvcol==i), ] = predict(mod.rf, newdata = x[which(cvcol==i),], type = "prob")
-      cvfitted2[which(cvcol==i) ] = predict(mod.rf, newdata = x[which(cvcol==i),], type = "response")
+      cvfitted = predict(mod.rf, newdata = x[which(cvcol==d),], type = "prob")
+      cvfitted2 = predict(mod.rf, newdata = x[which(cvcol==d),], type = "response")
+      return(data.frame(yp=cvfitted, cvfitted2 = cvfitted2, ord = which(cvcol ==d)))
     }
+  }, simplify = FALSE)
+  }else{
+    model <- sapply(unique(cvcol), function(d){
+      mod.rf <- randomForest(x = x[which(cvcol!=d), ], y = y[which(cvcol!=d)],
+                             ntree = ntree, mtry = mtry, maxnodes = maxnodes,
+                             nodesize = nodesize)
+
+      if(!is.factor(y)){
+        cvfitted <- predict(mod.rf, newdata = x[which(cvcol ==d),])
+        return(data.frame(yp=cvfitted, ord = which(cvcol ==d)))
+      }else{
+        cvfitted = predict(mod.rf, newdata = x[which(cvcol==d),], type = "prob")
+        cvfitted2 = predict(mod.rf, newdata = x[which(cvcol==d),], type = "response")
+        return(data.frame(yp=cvfitted, cvfitted2 = cvfitted2, ord = which(cvcol ==d)))
+      }
+    }, simplify = FALSE)
   }
+
+    model <- do.call(rbind, model)
+  model <- model[order(model$ord),]
+  cvfitted <- model$yp
+
   modglob <- randomForest(x = x, y = y,
                           ntree = ntree, mtry = mtry, maxnodes = maxnodes,
                           nodesize = nodesize, importance = TRUE)
   if(!is.factor(y)){
     ypred <- list(y = y, yp = cvfitted, cvcol = cvcol, model = modglob)
   }else{
-    matconf <- table(y, cvfitted2)
-    ypred <- list(y = y, yp = cvfitted2, prob = cvfitted, cvcol = cvcol, model = modglob,
+    matconf <- table(y, model$cvfitted2)
+    prob <- model[,1 : length(unique(y))]
+    ypred <- list(y = y, yp = model$cvfitted2, prob = prob, cvcol = cvcol, model = modglob,
                   confMat = matconf)
   }
 
