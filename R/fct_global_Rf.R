@@ -46,7 +46,7 @@
 #' @export
 #'
 #'
-rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y))
+rfMod <- function(x, y, cvcol, ntree = 500, mtry=if (!is.null(y) && !is.factor(y))
   max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL, nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1,
   criterion = "RMSE", nbcore = NULL){
 
@@ -139,7 +139,7 @@ rfMod <- function(x, y, cvcol, ntree = 50, mtry=if (!is.null(y) && !is.factor(y)
     }, simplify = FALSE)
   }
 
-    model <- do.call(rbind, model)
+  model <- do.call(rbind, model)
   model <- model[order(model$ord),]
   cvfitted <- model$yp
 
