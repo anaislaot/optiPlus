@@ -160,3 +160,6 @@ rfMod <- function(x, y, cvcol, ntree = 500, mtry=if (!is.null(y) && !is.factor(y
 
   return(ypred)
 }
+
+
+

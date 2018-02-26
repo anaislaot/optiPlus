@@ -86,9 +86,7 @@ shinyUI(fluidPage(
                                            conditionalPanel("input.mtry == false",
                                                             numericInput("selectMtry", label = "Mtry", value = 2, min = 1)
                                            ),
-                                           # helpText("Note that the default values of mtry are (sqrt(p) for classification (
-                                           #                           where p is number of variables in x) and (p/3) for regression"
-                                           # ),
+
                                            prettyCheckbox(
                                              inputId = "mtry", label = "mtry grid", icon = icon("check"), status = "primary"
                                            ),
@@ -113,10 +111,14 @@ shinyUI(fluidPage(
                           )#fin conditionalPanel de la RF
 
                           ,width =3),#fin sidebarPanel
-                        dashboardBody(
-                          uiOutput("box"),
+                        mainPanel(
+                          fluidRow(
+                            column(6, align="center",
+                          dataTableOutput("upload", width =9)
+                            )
+                          # verbatimTextOutput("CV"), width = 9
 
-                          verbatimTextOutput("CV"), width = 9
+                          )
 
 
                         )

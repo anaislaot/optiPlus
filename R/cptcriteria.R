@@ -59,10 +59,10 @@
   }
   if(criterion == "AUC"){
     modoptim$AUC <- .compute_criteria(modoptim, "AUC")
-    modoptim$errorConf <- .compute_criteria(modoptim, "CONF")
+    modoptim$confusion <- .compute_criteria(modoptim, "CONF")
   }
   if(criterion == "CONF"){
-    modoptim$errorConf <- .compute_criteria(modoptim, "CONF")
+    modoptim$confusion <- .compute_criteria(modoptim, "CONF")
   }
 
   modoptim

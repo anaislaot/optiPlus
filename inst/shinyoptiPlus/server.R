@@ -109,9 +109,9 @@ shinyServer(function(input, output, session) {
   #mtry
   observe({
     if(!is.factor(data[, input$SelectY])){
-    updateNumericInput(session, "selectMtry", value = round(ncol(data)/3,0))
+      updateNumericInput(session, "selectMtry", value = round(ncol(data)/3,0))
     }else{
-    updateNumericInput(session, "selectMtry", value = round(sqrt(ncol(data)), 0))
+      updateNumericInput(session, "selectMtry", value = round(sqrt(ncol(data)), 0))
     }
   })
   observe({
@@ -142,9 +142,9 @@ shinyServer(function(input, output, session) {
       updatePickerInput(session, "selectCriterion", choices= c("RMSE", "MAPE", "R2"))
     }else{
       if(nlevels(data[, input$SelectY]) > 2){
-      updatePickerInput(session, "selectCriterion", choices= "CONF")
+        updatePickerInput(session, "selectCriterion", choices= "CONF")
       }else{
-      updatePickerInput(session, "selectCriterion", choices= c("AUC", "CONF"))
+        updatePickerInput(session, "selectCriterion", choices= c("AUC", "CONF"))
       }
     }
   })
@@ -160,30 +160,28 @@ shinyServer(function(input, output, session) {
       ntree <- ntreeReact()
       mtry <- mtryReact()
       criterion <- input$selectCriterion
-
+      #
       if(input$GoModel != 0){
         res <- rfMod(x = x, y = y, cvcol= cvcol, ntree= ntree, mtry = mtry,  criterion = criterion)
-        sortie<-list(y = res$y, yp = res$yp, cvcol = res$cvcol , model = res$model, param = res$param, RMSE = res$RMSE,
-                     R2 = res$R2, MAPE = res$MAPE)
-        return(sortie)
+        res <- res[(names(res)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
+        res <- as.data.frame(res)
+        res <- round(res, 3)
+        res
       }
     })
   })
 
-  output$box <- renderUI({
-    fluidRow(
-      shinydashboard::valueBox("Ntree", RFGo()$param$ntree, color = "aqua")
-    )
+  output$upload <- renderDataTable({
+    datatable(RFGo(),rownames = FALSE, options = list(dom = 't',
+                                                      initComplete = JS(
+                                                        "function(settings, json) {",
+                                                        "$(this.api().table().header()).css({'background-color': '#629cef', 'color': '#fff'});",
+                                                        "}")))
   })
 
-  # output$ntree <- renderValueBox({
-  #   valueBox("Ntree", RFGo()$param$ntree)
-  #   })
-
-
-  output$CV <- renderPrint({
-    print(RFGo())
-  })
+  # output$CV <- renderPrint({
+  #   print(RFGo())
+  # })
 
 })#fin shinserver
 
