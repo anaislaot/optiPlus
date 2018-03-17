@@ -194,21 +194,32 @@ shinyServer(function(input, output, session) {
       #
       if(input$GoModel != 0){
         res <- rfMod(x = x, y = y, cvcol= cvcol, ntree= ntree, mtry = mtry,  criterion = criterion)
-        res <- res[(names(res)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
-        res <- as.data.frame(res)
-        res <- round(res, 3)
         res
+
       }
     })
   })
 
   output$upload <- renderDataTable({
-    datatable(RFGo(),rownames = FALSE, options = list(dom = 't',
+    resScore <- RFGo()$res
+    resScore <- resScore[(names(resScore)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
+    resScore <- as.data.frame(resScore)
+    resScore <- round(resScore, 3)
+    datatable(resScore,rownames = FALSE, options = list(dom = 't',
                                                       initComplete = JS(
                                                         "function(settings, json) {",
                                                         "$(this.api().table().header()).css({'background-color': '#629cef', 'color': '#fff'});",
                                                         "}")))
   })
+  output$graphOP <- renderAmCharts({
+    if(!is.factor(data[, input$SelectY])){
+      print(RFGo()$res)
+      plot(RFGo()$res, type = "obsPred", digits = 3, color = "#00b300")
+
+    }
+  })
+
+
 
   # output$CV <- renderPrint({
   #   print(RFGo())
