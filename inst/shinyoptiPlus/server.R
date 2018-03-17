@@ -201,15 +201,19 @@ shinyServer(function(input, output, session) {
   })
 
   output$allB <- renderUI({
+    if(is.null(RFGo()))return(NULL)
     resScore <- RFGo()
     resScore <- resScore[(names(resScore)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
     resScore <- as.data.frame(resScore)
     resScore <- round(resScore, 3)
 
-    exaBox(title = names(resScore)[1], value = resScore[1], icon = "wifi.png")
+    out <- ""
+    for(i in 1:length(resScore)){
+      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png"))
+    }
+
+      HTML(out)
   })
-
-
 
   output$upload <- renderDataTable({
     resScore <- RFGo()

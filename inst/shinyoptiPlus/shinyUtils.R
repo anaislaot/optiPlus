@@ -13,7 +13,7 @@ exaBox <- function(title, value, icon){
          )
 
 
-  HTML(htmlB)
+   column(HTML(htmlB), width = 2)
 
 }
 
