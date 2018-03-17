@@ -141,12 +141,15 @@ shinyUI(fluidPage(
                             column(8, align="center",
                           dataTableOutput("upload")
                             )
-                          , width = 9
-
+                          ),
+                          fluidRow(
+                            column(8, align="center",
+                                   amChartsOutput("graphOP")
+                            )
                           )
 
 
-                        )
+                          , width = 9 )
 
                       )
              ),#fermeture page1
