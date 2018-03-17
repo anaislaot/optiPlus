@@ -32,6 +32,7 @@
 #'
 #' plot(mod, type = "obsPred", digits = 3, color = "#00b300")
 #' plot(mod, type = "importance", color = "#00b300")
+#' plot(mod, type = "decileProb")
 #'
 #' @importFrom stats predict
 #' @export
@@ -72,8 +73,91 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#FF8000"){
   if(type == "importance"){
     res <- data.frame(Var = row.names(x$model$importance), Imp =x$model$importance[, 1])
     res <- res[order(res$Imp, decreasing = TRUE),]
-    amBarplot("Var", "Imp", res, horiz = TRUE,
+    return(amBarplot("Var", "Imp", res, horiz = TRUE,
               main = "Variable Importance", export=TRUE,  ylim = c(0, max(res$Imp)),
-              groups_color = color)
+              groups_color = color))
   }
+
+  if(type == "decileProb"){
+
+    data <- data.frame(prob = x$prob[2], y = x$y)
+
+      nb0 = rep(0, 10)
+      nb1 = rep(0, 10)
+      nb = 1
+      seuil = seq(0, 0.9, by = 0.1)
+      names(data) <- c("prob", "y")
+      lev <- levels(data$y)
+      label = NULL
+
+      for (i in seuil){
+        if(i == 0){
+          vect <- which(data$prob >= i & data$prob <= (i + 0.1))
+          nbdec <- length(vect)
+          nb0[nb] <- length(which(data[vect,]$y == lev[1]))*100/ nbdec
+          nb1[nb] <- length(which(data[vect,]$y == lev[2]))*100/ nbdec
+          label[nb] <- paste(i, "-", (i+0.1))
+        }
+        vect <- which(data$prob > i & data$prob <= (i + 0.1))
+        nbdec <- length(vect)
+        nb0[nb] <- length(which(data[vect,]$y == lev[1]))*100/ nbdec
+        nb1[nb] <- length(which(data[vect,]$y == lev[2]))*100/ nbdec
+        label[nb] <- paste(i, "-", (i+0.1))
+
+        nb <- nb +1
+      }
+
+      nb0[is.nan(nb0)] <- 0
+      nb1[is.nan(nb1)] <- 0
+
+      sortie <- data.frame(nb0 = round(nb0, 2) , nb1 = round(nb1, 2), label = label)
+      title1 <- paste("Obs :", lev[1])
+      title2 <- paste("Obs :", lev[2])
+
+      return(pipeR::pipeline(
+        amSerialChart(categoryField = 'label'),
+        setDataProvider(sortie),
+        addGraph(balloonText = '<b>[[category]]: [[value]]</b>', type = 'column',
+                 valueField = 'nb0', fillAlphas = 1, lineAlpha = 0, title = title1, fillColors = '#FF00FF'),
+        addGraph(balloonText = '<b>[[category]]: [[value]]</b>',type = 'column',
+                 valueField = 'nb1', fillAlphas = 1, lineAlpha = 0, title = title2),
+        addValueAxes(stackType = 'regular', maximum = 100),
+        setCategoryAxis(position = "bottom", title = 'Probability by deciles', labelRotation = 45  ),
+        setChartCursor(),
+        setLegend(position = 'bottom' ,useGraphSettings = TRUE, valueWidth = 100)
+      ))
+  }
+
+  if(type == "density"){
+    data <- data.frame(prob = x$prob[2], y = x$y)
+    names(data) <- c("prob", "y")
+    return(.ggplot2.density(data=data, xName='prob', groupName='y',
+                 alpha=0.5, fillGroupDensity=TRUE, backgroundColor="white",
+                 removePanelBorder=TRUE, removePanelGrid=TRUE, xtitle = "probability",
+                 axisLine = c(0.5, "solid" ,"darkblue"),
+                 groupColors = c("#e73b27", "#2b2b2a")))
+  }
+
+  if(type == "ROC"){
+    data <- data.frame(prob = x$prob[2], y = x$y)
+    names(data) <- c("prob", "y")
+    dataRoc <- roc(data$prob, data$y)
+    dataRoc <- data.frame(x = dataRoc$fpr, y = dataRoc$tpr)
+
+    return(amPlot(x= dataRoc$x, y= dataRoc$y, type = "l", xlab = "fpr", ylab = "tpr", main = "ROC Curve",
+           export = TRUE, col = "#d32144", creditsPosition = "bottom-right")%>>%
+      addTrendLine(initialValue = 0, initialXValue = 0,
+                   finalValue = 1, finalXValue = 1, lineColor = "#000000"))
+
+  }
+
+  if(type == "Matconf"){
+    return(.amHeatmap(as.data.frame.matrix(x$confMat),  col=c("#ffffff","#ed370a"), cex = 30))
+
+  }
+
 }
+
+
+
+
