@@ -9,7 +9,7 @@
 
 library(shiny)
 
-# Define server logic required to draw a histogram
+
 shinyServer(function(input, output, session) {
 
   output$hist <- renderAmCharts({
@@ -125,6 +125,7 @@ shinyServer(function(input, output, session) {
       updateNumericInput(session, "mtryBy", value = 1)
     }
   })
+
   #reactive mtry
   mtryReact <- reactive({
     if(!input$mtry){
@@ -136,6 +137,36 @@ shinyServer(function(input, output, session) {
     }
   })
 
+  #maxnodes
+  maxnodesReact <- reactive({
+    if(!input$maxnodes){
+      maxnodes <- input$selectMaxnodes
+      return(maxnodes)
+    }else{
+      maxnodes <- seq(input$maxnodesMin, input$maxnodesMax, by = input$maxnodesBy)
+      return(maxnodes)
+    }
+  })
+
+  #nodesize
+  observe({
+    if(!is.factor(data[, input$SelectY])){
+      updateNumericInput(session, "selectNodesize", value = 5)
+    }else{
+      updateNumericInput(session, "selectNodesize", value = 1)
+    }
+  })
+
+  #reactive nodesize
+  nodesizeReact <- reactive({
+    if(!input$nodesize){
+      nodesize <- input$selectNodesize
+      return(nodesize)
+    }else{
+      nodesize <- seq(input$nodesizeMin, input$nodesizeMax, by = input$nodesizeBy)
+      return(nodesize)
+    }
+  })
   #criterion
   observe({
     if(!is.factor(data[, input$SelectY])){

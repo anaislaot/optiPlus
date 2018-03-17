@@ -65,7 +65,6 @@ shinyUI(fluidPage(
                                                             #             choices = names(data))
                                                             pickerInput("SelectColumn",label = "Select a column",selected = NULL,
                                                                         choices = names(data), options = list(style = "btn-primary"))
-
                                            ),
                                            h3("Parameters"),
                                            conditionalPanel("input.ntree == false",
@@ -80,7 +79,7 @@ shinyUI(fluidPage(
                                                               numericInput("ntreeMax", label = "Max", value = 500),
                                                               numericInput("ntreeBy", label = "By", value = 100),
                                                               style = "color : black"),
-                                                              status = "primary", label = "sucess", circle = FALSE)
+                                                              status = "primary", label = "grid", circle = FALSE)
                                            ),#conditionalPanel Ntreegrid
 
                                            conditionalPanel("input.mtry == false",
@@ -96,7 +95,36 @@ shinyUI(fluidPage(
                                                               numericInput("mtryMax", label = "Max", value = 2),
                                                               numericInput("mtryBy", label = "By", value = 1),
                                                               style = "color : black"),
-                                                              status = "primary", label = "sucess", circle = FALSE)
+                                                              status = "primary", label = "grid", circle = FALSE)
+                                           ),
+                                           conditionalPanel("input.maxnodes == false",
+                                                            numericInput("selectMaxnodes", label = "Maxnodes", value = 10, min = 1)
+                                           ),
+                                           prettyCheckbox(
+                                             inputId = "maxnodes", label = "maxnodes grid", icon = icon("check"), status = "primary"
+                                           ),
+                                           conditionalPanel("input.maxnodes == true",
+                                                            dropdownButton(div(
+                                                              numericInput("maxnodesMin", label = "Min", value = 1),
+                                                              numericInput("maxnodesMax", label = "Max", value = 10),
+                                                              numericInput("maxnodesBy", label = "By", value = 2),
+                                                              style = "color : black"),
+                                                              status = "primary", label = "grid", circle = FALSE)
+                                           ),#conditionalPanel maxnodes
+                                           conditionalPanel("input.nodesize == false",
+                                                            numericInput("selectNodesize", label = "Nodesize", value = 5, min = 1)
+                                           ),
+
+                                           prettyCheckbox(
+                                             inputId = "nodesize", label = "nodesize grid", icon = icon("check"), status = "primary"
+                                           ),
+                                           conditionalPanel("input.nodesize == true",
+                                                            dropdownButton(div(
+                                                              numericInput("nodesizeMin", label = "Min", value = 1),
+                                                              numericInput("nodesizeMax", label = "Max", value = 10),
+                                                              numericInput("nodesizeBy", label = "By", value = 1),
+                                                              style = "color : black"),
+                                                              status = "primary", label = "grid", circle = FALSE)
                                            ),
                                            pickerInput(inputId = "selectCriterion",label = "Select criterion",selected = "RMSE",
                                                        choices = c("RMSE", "MAPE", "R2", "AUC", "CONF"), options = list(style = "btn-primary")),
@@ -105,18 +133,15 @@ shinyUI(fluidPage(
                                                       color = "primary", icon = icon("thumbs-up"))
 
 
-
-
-
                           )#fin conditionalPanel de la RF
 
                           ,width =3),#fin sidebarPanel
                         mainPanel(
                           fluidRow(
-                            column(6, align="center",
-                          dataTableOutput("upload", width =9)
+                            column(8, align="center",
+                          dataTableOutput("upload")
                             )
-                          # verbatimTextOutput("CV"), width = 9
+                          , width = 9
 
                           )
 
