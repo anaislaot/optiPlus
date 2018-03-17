@@ -11,6 +11,7 @@ data <- diamonds
 data <- as.data.frame(diamonds)
 data <- data[1:100, ]
 
+source("shinyUtils.R")
 
 # data <- mtcars
 
