@@ -209,8 +209,6 @@ shinyServer(function(input, output, session) {
     exaBox(title = names(resScore)[1], value = resScore[1], icon = "wifi.png")
   })
 
-
-
   output$upload <- renderDataTable({
     resScore <- RFGo()
     resScore <- resScore[(names(resScore)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
@@ -223,12 +221,23 @@ shinyServer(function(input, output, session) {
                                                         "}")))
   })
   output$graphOP <- renderAmCharts({
+    if(is.null(RFGo())){
+      return(NULL)
+    }
     if(!is.factor(data[, input$SelectY])){
-      print(RFGo()$res)
-      plot(RFGo()$res, type = "obsPred", digits = 3, color = "#00b300")
-
+      plot(RFGo(), type = "obsPred", digits = 3, color = "#00b300")
     }
   })
+
+  output$varimp <- renderAmCharts({
+    if(is.null(RFGo())){
+      return(NULL)
+    }
+    if(!is.factor(data[, input$SelectY])){
+      plot(RFGo(), type = "importance", digits = 3, color = "#00b300")
+    }
+  })
+
 
 
 

@@ -44,8 +44,8 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#FF8000"){
     a <- cor(dp$y, dp$yp)
     b <- mean(dp$y) - a*mean(dp$yp)
     borne <- range(dp$y)
-    inf <- borne[1] - 10000
-    sup <- borne[2] + 10000
+    inf <- borne[1]
+    sup <- borne[2]
     pt1 <- inf*a + b
     pt2 <-  sup*a + b
     pt1 <- c(pt1, inf)

@@ -144,31 +144,32 @@ shinyUI(fluidPage(
                         mainPanel(
                           fluidRow(
                             column(8, align="center",
-                          dataTableOutput("upload"),
-                          uiOutput("allB")
+                                   dataTableOutput("upload"),
+                                   uiOutput("allB")
                             )
                           ),
                           fluidRow(
-                            column(8, align="center",
+                            column(6, align="center",
                                    amChartsOutput("graphOP")
-                            )
-                          )
+                            ),
+                            column(6, align="center",
+                                   amChartsOutput("varimp"))
 
 
-                          , width = 9 )
+                            , width = 9 )
 
-                      )
-             ),#fermeture page1
-             ####PAGE 3 :
-             tabPanel("Maye your predict"
-
-
-
-             ),#fermeture page3
-             tabPanel("Balance sheet"
+                        )
+                      )),#fermeture page1
+                      ####PAGE 3 :
+                      tabPanel("Maye your predict"
 
 
 
-             )#fermeture page4
-  )#fermeture navbarpage
-))#fermeture fluidpage + shinyUI
+                      ),#fermeture page3
+                      tabPanel("Balance sheet"
+
+
+
+                      )#fermeture page4
+             )#fermeture navbarpage
+  ))#fermeture fluidpage + shinyUI
