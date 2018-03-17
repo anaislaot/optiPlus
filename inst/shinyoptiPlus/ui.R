@@ -9,6 +9,10 @@
 
 shinyUI(fluidPage(
   #tags$head(tags$style(HTML("dashboardStyle.css"))),
+  tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "exabox.css")
+  ),
+
   navbarPage("optiPlus",
 
              ####PAGE 1 :
@@ -34,7 +38,8 @@ shinyUI(fluidPage(
 
                         # Show a plot of the generated distribution
                         mainPanel(
-                          amChartsOutput("hist"), width = 9
+                          amChartsOutput("hist")
+                          , width = 9
                         )
                       )#fin sidebar layout
 
@@ -139,7 +144,8 @@ shinyUI(fluidPage(
                         mainPanel(
                           fluidRow(
                             column(8, align="center",
-                          dataTableOutput("upload")
+                          dataTableOutput("upload"),
+                          uiOutput("allB")
                             )
                           , width = 9
 
