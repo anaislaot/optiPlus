@@ -238,30 +238,97 @@ shinyServer(function(input, output, session) {
     HTML(out)
   })
 
+
   output$graphOP <- renderAmCharts({
+    input$GoModel
+    isolate({
     if(is.null(RFGo())){
       return(NULL)
     }
     if(!is.factor(data[, input$SelectY])){
       plot(RFGo(), type = "obsPred", digits = 3, color = "#ad33ff")
     }
+    })
   })
 
   output$varimp <- renderAmCharts({
+    input$GoModel
+    isolate({
+    if(is.null(RFGo())){
+      return(NULL)
+    }
+    # if(!is.factor(data[, input$SelectY])){
+      plot(RFGo(), type = "importance", digits = 3, color = "#ad33ff")
+    # }
+    })
+  })
+
+  output$residuals <- renderAmCharts({
+    input$GoModel
+    isolate({
     if(is.null(RFGo())){
       return(NULL)
     }
     if(!is.factor(data[, input$SelectY])){
-      plot(RFGo(), type = "importance", digits = 3, color = "#ad33ff")
+      plot(RFGo(), type = "residualPlot", digits = 3, color = "#ad33ff")
     }
+  })
+  })
+  output$matrixConf <- renderAmCharts({
+    input$GoModel
+    isolate({
+    if(is.null(RFGo())){
+      return(NULL)
+    }
+    if(is.factor(data[, input$SelectY])){
+      plot(RFGo(), type = "Matconf", digits = 3, color = "#ad33ff")
+    }
+    })
+  })
+
+  output$graphModel <- renderUI({
+    input$GoModel
+    isolate({
+    if(!is.factor(data[, input$SelectY])){
+    return(div(
+      fluidRow(
+        column(6, align="center",
+               amChartsOutput("graphOP")
+        ),
+        column(6, align="center",
+               amChartsOutput("varimp"))
+
+
+        , width = 9 ),
+      br(), br(), br(),
+      fluidRow(
+        column(widt=3),
+        column(6, align = "center",
+               amChartsOutput("residuals"))
+
+      )
+
+    ))
+    }
+
+    if(is.factor(data[, input$SelectY])){
+      return(div(
+        fluidRow(
+          column(12, align="center",
+                 amChartsOutput("matrixConf")
+          ),
+          column(6, align="center",
+                 amChartsOutput("varimp"))
+
+
+          , width = 9 )
+      ))
+    }
+
+  })
   })
 
 
-
-
-  # output$CV <- renderPrint({
-  #   print(RFGo())
-  # })
 
 })#fin shinserver
 
