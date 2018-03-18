@@ -4,9 +4,10 @@
 \alias{rfMod}
 \title{Launch a RandomForest with cross-validation and the possibility of tuning hyperparameters}
 \usage{
-rfMod(x, y, cvcol, ntree = 50, mtry = if (!is.null(y) && !is.factor(y))
+rfMod(x, y, cvcol, ntree = 500, mtry = if (!is.null(y) && !is.factor(y))
   max(floor(ncol(x)/3), 1) else floor(sqrt(ncol(x))), maxnodes = NULL,
-  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1, criterion = "RMSE")
+  nodesize = if (!is.null(y) && !is.factor(y)) 5 else 1, criterion = "RMSE",
+  nbcore = NULL)
 }
 \arguments{
 \item{x}{\code{data.frame},  Predictor variables.}

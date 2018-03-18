@@ -7,9 +7,9 @@ library(DT)
 library(data.table)
 library(optiPlus)
 
-data <- diamonds
-data <- as.data.frame(diamonds)
-data <- data[1:100, ]
+# data <- diamonds
+# data <- as.data.frame(diamonds)
+# data <- data[1:100, ]
 
 source("shinyUtils.R")
 
