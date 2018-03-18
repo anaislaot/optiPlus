@@ -1,7 +1,7 @@
 print("toto")
 
 
-exaBox <- function(title, value, icon){
+exaBox <- function(title, value, icon, width){
   htmlB <- paste0(
          '<div class="exaBox"><div><img src="',
          icon,
@@ -13,7 +13,7 @@ exaBox <- function(title, value, icon){
          )
 
 
-   column(HTML(htmlB), width = 2)
+   column(HTML(htmlB), width = width)
 
 }
 

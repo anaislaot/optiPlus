@@ -20,3 +20,6 @@ source("shinyUtils.R")
 # data <- read.csv("C:/Anais/Projets stat/mycotox/Code/Data/base_FUMO.csv", sep =";", dec = ".", header = TRUE)
 # data$FUMO <- as.factor(data$FUMO)
 # data <- na.omit(data)
+
+# library(lasso2)
+# data(Prostate)

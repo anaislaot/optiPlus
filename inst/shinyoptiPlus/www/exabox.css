@@ -49,3 +49,9 @@
 .exaBox:hover:after{
     border-color: #000000;
 }
+
+
+
+.myParamDiv{
+    border: 5px solid red;
+}

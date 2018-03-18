@@ -151,6 +151,13 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#FF8000"){
 
   }
 
+  if(type == "residualPlot"){
+    resid <- x$y - x$yp
+
+    return(amHist(resid, xlab = "Residuals", ylab = "", main = "Residuals plot", creditsPosition = "bottom-right",
+           col = "#940aed"))
+  }
+
   if(type == "Matconf"){
     return(.amHeatmap(as.data.frame.matrix(x$confMat),  col=c("#ffffff","#ed370a"), cex = 30))
 

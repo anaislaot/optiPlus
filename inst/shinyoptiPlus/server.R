@@ -200,33 +200,39 @@ shinyServer(function(input, output, session) {
     })
   })
 
-  output$allB <- renderUI({
+  output$boxparam <- renderUI({
     if(is.null(RFGo()))return(NULL)
     resScore <- RFGo()
-    resScore <- resScore[(names(resScore)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
+    resScore <- resScore[(names(resScore)%in%c("param"))]
     resScore <- as.data.frame(resScore)
     resScore <- round(resScore, 3)
 
 
     out <- ""
     for(i in 1:length(resScore)){
-      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png"))
+      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png",  width = 3))
     }
 
       HTML(out)
   })
 
-  output$upload <- renderDataTable({
+  output$boxscore<- renderUI({
+    if(is.null(RFGo()))return(NULL)
     resScore <- RFGo()
-    resScore <- resScore[(names(resScore)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion", "param"))]
+    resScore <- resScore[(names(resScore)%in%c("RMSE", "MAPE", "R2", "AUC", "confusion"))]
     resScore <- as.data.frame(resScore)
     resScore <- round(resScore, 3)
-    datatable(resScore,rownames = FALSE, options = list(dom = 't',
-                                                      initComplete = JS(
-                                                        "function(settings, json) {",
-                                                        "$(this.api().table().header()).css({'background-color': '#629cef', 'color': '#fff'});",
-                                                        "}")))
+
+
+    out <- ""
+    for(i in 1:length(resScore)){
+      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png",
+                                width = 4))
+    }
+
+    HTML(out)
   })
+
   output$graphOP <- renderAmCharts({
     if(is.null(RFGo())){
       return(NULL)

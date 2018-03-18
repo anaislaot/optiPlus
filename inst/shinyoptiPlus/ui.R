@@ -143,11 +143,25 @@ shinyUI(fluidPage(
                           ,width =3),#fin sidebarPanel
                         mainPanel(
                           fluidRow(
-                            column(8, align="center",
-                                   dataTableOutput("upload"),
-                                   uiOutput("allB")
-                            )
-                          ),
+
+                            column(7, align="center",
+                                   fluidRow(
+                                   div(
+                                     fluidRow(
+                                   h3("Parameters"),
+                                   uiOutput("boxparam")
+                                     )
+                                   , class = 'myParamDiv')
+                                   )
+                            ),
+
+
+                            column(5, align="center",
+                                   h3("Scores"),
+                                   uiOutput("boxscore")
+
+                          ), width = 9),
+
                           fluidRow(
                             column(6, align="center",
                                    amChartsOutput("graphOP")
