@@ -55,3 +55,81 @@
 .myParamDiv{
     border: 5px solid red;
 }
+
+
+.navbar-default {
+    border-radius: 0;
+    background-image: url('img.png');
+    z-index: 999;
+    height: 70px;
+    border-color: #070C60;
+
+}
+.navbar-default .navbar-nav > li > a{
+    color: #FFF;
+    font-size: 25px;
+    vertical-align: middle;
+}
+.navbar-default .navbar-nav > li > a {
+    padding-top: 22px;
+
+}
+.navbar-default .navbar-brand {
+    color: #FFF;
+    border-right-style: solid;
+    border-right-color: #FFF;
+    height: 70px;
+    border-width:1px;
+}
+.navbar-brand:hover{
+    color: #FFF;
+}
+
+
+.navbar-default span.navbar-brand:hover {
+      color: #FFF;
+}
+
+
+.navbar-default .navbar-nav > li {
+    border-right-style: solid;
+    border-right-color: #FFF;
+    height: 70px;
+    border-width:1px;
+}
+
+.navbar-brand{
+   color: #FFF;
+   font-size: 40px;
+  padding-top: 22px;
+}
+
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #FFF;
+    background-color: #80ccff;
+    height: 70px;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #FFF;
+    background-color: #0099ff;
+    height: 70px;
+     font-weight: bold;
+}
+
+.navbar-default .navbar-text {
+    color: #FFF;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #0099ff;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #0099ff;
+}
