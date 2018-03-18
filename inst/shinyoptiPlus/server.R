@@ -240,24 +240,32 @@ shinyServer(function(input, output, session) {
 
 
   output$graphOP <- renderAmCharts({
+    input$GoModel
+    isolate({
     if(is.null(RFGo())){
       return(NULL)
     }
     if(!is.factor(data[, input$SelectY])){
       plot(RFGo(), type = "obsPred", digits = 3, color = "#ad33ff")
     }
+    })
   })
 
   output$varimp <- renderAmCharts({
+    input$GoModel
+    isolate({
     if(is.null(RFGo())){
       return(NULL)
     }
-    if(!is.factor(data[, input$SelectY])){
+    # if(!is.factor(data[, input$SelectY])){
       plot(RFGo(), type = "importance", digits = 3, color = "#ad33ff")
-    }
+    # }
+    })
   })
 
   output$residuals <- renderAmCharts({
+    input$GoModel
+    isolate({
     if(is.null(RFGo())){
       return(NULL)
     }
@@ -265,20 +273,24 @@ shinyServer(function(input, output, session) {
       plot(RFGo(), type = "residualPlot", digits = 3, color = "#ad33ff")
     }
   })
-
-  output$residuals <- renderAmCharts({
+  })
+  output$matrixConf <- renderAmCharts({
+    input$GoModel
+    isolate({
     if(is.null(RFGo())){
       return(NULL)
     }
-    if(!is.factor(data[, input$SelectY])){
-      plot(RFGo(), type = "residualPlot", digits = 3, color = "#ad33ff")
+    if(is.factor(data[, input$SelectY])){
+      plot(RFGo(), type = "Matconf", digits = 3, color = "#ad33ff")
     }
+    })
   })
 
   output$graphModel <- renderUI({
-
+    input$GoModel
+    isolate({
     if(!is.factor(data[, input$SelectY])){
-    div(
+    return(div(
       fluidRow(
         column(6, align="center",
                amChartsOutput("graphOP")
@@ -296,11 +308,25 @@ shinyServer(function(input, output, session) {
 
       )
 
-    )
+    ))
+    }
+
+    if(is.factor(data[, input$SelectY])){
+      return(div(
+        fluidRow(
+          column(12, align="center",
+                 amChartsOutput("matrixConf")
+          ),
+          column(6, align="center",
+                 amChartsOutput("varimp"))
+
+
+          , width = 9 )
+      ))
     }
 
   })
-
+  })
 
 
 
