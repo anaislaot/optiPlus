@@ -210,7 +210,8 @@ shinyServer(function(input, output, session) {
 
     out <- ""
     for(i in 1:length(resScore)){
-      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png",  width = 3))
+      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png",
+                                width = 3))
     }
 
       HTML(out)
@@ -226,7 +227,7 @@ shinyServer(function(input, output, session) {
 
     out <- ""
     for(i in 1:length(resScore)){
-      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "wifi.png",
+      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "blue_gears.jpeg.jpg",
                                 width = 4))
     }
 
