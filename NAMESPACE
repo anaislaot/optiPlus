@@ -3,7 +3,7 @@
 export(createCv)
 export(plot.optiPlusModel)
 export(rfMod)
-export(shinyOpti)
+export(shinyOptiPlus)
 import(pipeR)
 import(rAmCharts)
 importFrom(AUC,auc)

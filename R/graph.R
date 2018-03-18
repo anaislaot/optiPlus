@@ -118,9 +118,9 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#4d88ff"){
         amSerialChart(categoryField = 'label'),
         setDataProvider(sortie),
         addGraph(balloonText = '<b>[[category]]: [[value]]</b>', type = 'column',
-                 valueField = 'nb0', fillAlphas = 1, lineAlpha = 0, title = title1, fillColors = '#FF00FF'),
+                 valueField = 'nb0', fillAlphas = 1, lineAlpha = 0, title = title1, fillColors = '#ad33ff'),
         addGraph(balloonText = '<b>[[category]]: [[value]]</b>',type = 'column',
-                 valueField = 'nb1', fillAlphas = 1, lineAlpha = 0, title = title2),
+                 valueField = 'nb1', fillAlphas = 1, lineAlpha = 0, title = title2, fillColors = '#6699ff'),
         addValueAxes(stackType = 'regular', maximum = 100),
         setCategoryAxis(position = "bottom", title = 'Probability by deciles', labelRotation = 45  ),
         setChartCursor(),
@@ -135,7 +135,7 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#4d88ff"){
                  alpha=0.5, fillGroupDensity=TRUE, backgroundColor="white",
                  removePanelBorder=TRUE, removePanelGrid=TRUE, xtitle = "probability",
                  axisLine = c(0.5, "solid" ,"darkblue"),
-                 groupColors = c("#e73b27", "#2b2b2a")))
+                 groupColors = c("#e73b27", "#6699ff")))
   }
 
   if(type == "ROC"){
@@ -145,7 +145,7 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#4d88ff"){
     dataRoc <- data.frame(x = dataRoc$fpr, y = dataRoc$tpr)
 
     return(amPlot(x= dataRoc$x, y= dataRoc$y, type = "l", xlab = "fpr", ylab = "tpr", main = "ROC Curve",
-           export = TRUE, col = "#d32144", creditsPosition = "bottom-right")%>>%
+           export = TRUE, col = "#bd33ff", creditsPosition = "bottom-right")%>>%
       addTrendLine(initialValue = 0, initialXValue = 0,
                    finalValue = 1, finalXValue = 1, lineColor = "#000000"))
 

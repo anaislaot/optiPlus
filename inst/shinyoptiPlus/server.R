@@ -286,6 +286,44 @@ shinyServer(function(input, output, session) {
     })
   })
 
+  output$plotROC <- renderAmCharts({
+    input$GoModel
+    isolate({
+      if(is.null(RFGo())){
+        return(NULL)
+      }
+      if(is.factor(data[, input$SelectY])){
+        plot(RFGo(), type = "ROC")
+      }
+    })
+  })
+
+  output$plotDec <- renderAmCharts({
+    input$GoModel
+    isolate({
+      if(is.null(RFGo())){
+        return(NULL)
+      }
+      if(is.factor(data[, input$SelectY])){
+        plot(RFGo(), type = "decileProb")
+      }
+    })
+  })
+
+  output$plotDensity <- renderPlot({
+    input$GoModel
+    isolate({
+      if(is.null(RFGo())){
+        return(NULL)
+      }
+      if(is.factor(data[, input$SelectY])){
+        plot(RFGo(), type = "density")
+      }
+    })
+  })
+
+
+
   output$graphModel <- renderUI({
     input$GoModel
     isolate({
@@ -302,7 +340,7 @@ shinyServer(function(input, output, session) {
         , width = 9 ),
       br(), br(), br(),
       fluidRow(
-        column(widt=3),
+        column(width=3),
         column(6, align = "center",
                amChartsOutput("residuals"))
 
@@ -311,7 +349,39 @@ shinyServer(function(input, output, session) {
     ))
     }
 
-    if(is.factor(data[, input$SelectY])){
+      if(nlevels(data[, input$SelectY]) == 2){
+        return(div(
+          fluidRow(
+            column(6, align="center",
+                   amChartsOutput("matrixConf")
+            ),
+            column(6, align="center",
+                   amChartsOutput("varimp"))
+
+
+            , width = 9 ),
+          br(), br(), br(),
+          fluidRow(
+            column(6, align="center",
+                   amChartsOutput("plotROC")
+            ),
+            column(6, align="center",
+                   amChartsOutput("plotDec"))
+
+
+            , width = 9 ),
+          br(), br(), br(),
+          fluidRow(
+            column(width=3),
+            column(6, align = "center",
+                   plotOutput("plotDensity"))
+
+          )
+        ))
+
+
+}
+      if(nlevels(data[, input$SelectY]) > 2){
       return(div(
         fluidRow(
           column(12, align="center",

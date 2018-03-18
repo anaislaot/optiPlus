@@ -15,7 +15,7 @@ source("shinyUtils.R")
 
 # data <- mtcars
 
-# data <- iris
+data <- iris
 
 # data <- read.csv("C:/Anais/Projets stat/mycotox/Code/Data/base_FUMO.csv", sep =";", dec = ".", header = TRUE)
 # data$FUMO <- as.factor(data$FUMO)
@@ -23,3 +23,8 @@ source("shinyUtils.R")
 
 # library(lasso2)
 # data(Prostate)
+
+# library(lasso2)
+# data(Prostate)
+# data <- Prostate
+# data$svi <- as.factor(data$svi)

@@ -6,7 +6,7 @@
 #'
 #'
 #' @export
-shinyOpti <- function(data){
+shinyOptiPlus <- function(data){
 
 
   G <- .GlobalEnv
