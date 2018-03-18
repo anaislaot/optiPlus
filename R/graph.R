@@ -159,7 +159,7 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#4d88ff"){
   }
 
   if(type == "Matconf"){
-    return(.amHeatmap(as.data.frame.matrix(x$confMat),  col=c("#ffffff","#4d88ff"), cex = 30))
+    return(.amHeatmap(as.data.frame.matrix(x$confMat),  col=c("#ffffff","#ad33ff"), cex = 30))
 
   }
 
