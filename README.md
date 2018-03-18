@@ -9,5 +9,5 @@ devtools::install_github("anaislaot/optiPlus")
 
 ## Run shiny app
 ```r
-shinyOpti(iris)
+shinyOptiPlus(iris)
 ```
