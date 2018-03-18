@@ -12,7 +12,7 @@ shinyUI(fluidPage(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "exabox.css")
   ),
-
+  div(class = "footeropti"),
   navbarPage("optiPlus",
 
              ####PAGE 1 :
@@ -185,5 +185,5 @@ shinyUI(fluidPage(
 
 
                       )#fermeture page4
-             )#fermeture navbarpage
+             , footer = br())#fermeture navbarpage
   ))#fermeture fluidpage + shinyUI
