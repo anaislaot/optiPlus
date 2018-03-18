@@ -29,8 +29,9 @@ shinyUI(fluidPage(
                           prettyCheckbox(inputId = "var2check", label = "Select another variable",
                                          icon = icon("check"),status = "primary"),
                           conditionalPanel("input.var2check == true",
-                                           selectInput("selectDesc2", label = "Select another variable among the list", selected = NULL,
-                                                       choices = names(data))
+                                           pickerInput("selectDesc2", label = "Select another variable among the list", selected = NULL,
+                                                       choices = names(data), options = list(style = "btn-primary"))
+
                           )
 
 
@@ -174,6 +175,7 @@ shinyUI(fluidPage(
                                    )
 
                           ), width = 9),
+                          br(), br(),br(), br(),
 
                           fluidRow(
                             column(6, align="center",

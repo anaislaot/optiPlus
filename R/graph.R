@@ -38,7 +38,7 @@
 #' @export
 #'
 #'
-plot.optiPlusModel <- function(x, type, digits = 2, color = "#FF8000"){
+plot.optiPlusModel <- function(x, type, digits = 2, color = "#4d88ff"){
   ##Obs - Pred
   if(type == "obsPred"){
     dp <- data.frame(yp = x$yp, y = x$y)
@@ -64,7 +64,7 @@ plot.optiPlusModel <- function(x, type, digits = 2, color = "#FF8000"){
       setChartCursor(),
       addValueAxes(title = "Predicted values"),
       addValueAxes(title = "Observed values", position = "bottom"),
-      addTitle(text = "Predicted VS Observed", size = 20),
+      addTitle(text = "Predicted VS Observed", size = 15),
       addTrendLine(initialValue = pt1[1], initialXValue = pt1[2],
                    finalValue = pt2[1], finalXValue = pt2[2], lineColor = "#000000"),
       setExport()

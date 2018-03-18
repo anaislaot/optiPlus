@@ -29,16 +29,16 @@ shinyServer(function(input, output, session) {
       if(!is.numeric(x)){
         data2 <- as.data.frame(table(x))
         montitre <- paste ("Barplot of", input$selectDesc)
-        Graph <- amBarplot(x = "x", y = "Freq"  , data = data2, main = montitre)
+        Graph <- amBarplot(x = "x", y = "Freq"  , data = data2, main = montitre, groups_color = "#ad33ff")
       }else{
         montitre <- paste ("Histogram of", input$selectDesc)
         Graph <- amHist(x= x, xlab = input$selectDesc, ylab = "frequency", freq =TRUE,
-                        export= TRUE, main = montitre)
+                        export= TRUE, main = montitre, col = "#ad33ff", border = "#bd33ff")
       }
     }else{
       if(is.numeric(x) & is.numeric(y)){
         montitre <- paste ("Plot of", input$selectDesc)
-        Graph <- amPlot(x = x, y = y, main = montitre)
+        Graph <- amPlot(x = x, y = y, main = montitre, col = "#ad33ff")
       }
 
       if(is.character(x) & is.character(y)){
@@ -64,7 +64,7 @@ shinyServer(function(input, output, session) {
         df <- data.frame(y = y, x = x)
         names(df) <- c(input$selectDesc2, input$selectDesc)
 
-        Graph <- amBoxplot(formula, data = df, main = montitre)
+        Graph <- amBoxplot(formula, data = df, main = montitre, col = "#ad33ff")
       }
 
       if(is.character(x) & is.numeric(y)){
@@ -75,7 +75,7 @@ shinyServer(function(input, output, session) {
         names(df) <- c(input$selectDesc, input$selectDesc2)
 
 
-        Graph <- amBoxplot(formula, data = df, main = montitre)
+        Graph <- amBoxplot(formula, data = df, main = montitre, col = "#ad33ff")
       }
       Graph
     }
@@ -243,7 +243,7 @@ shinyServer(function(input, output, session) {
       return(NULL)
     }
     if(!is.factor(data[, input$SelectY])){
-      plot(RFGo(), type = "obsPred", digits = 3, color = "#00b300")
+      plot(RFGo(), type = "obsPred", digits = 3, color = "#ad33ff")
     }
   })
 
@@ -252,7 +252,7 @@ shinyServer(function(input, output, session) {
       return(NULL)
     }
     if(!is.factor(data[, input$SelectY])){
-      plot(RFGo(), type = "importance", digits = 3, color = "#00b300")
+      plot(RFGo(), type = "importance", digits = 3, color = "#ad33ff")
     }
   })
 
