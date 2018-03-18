@@ -4,7 +4,7 @@
 \alias{plot.optiPlusModel}
 \title{Plot for optiPlusModel class}
 \usage{
-plot.optiPlusModel(x, type, digits = 2, color = "#FF8000")
+plot.optiPlusModel(x, type, digits = 2, color = "#4d88ff")
 }
 \arguments{
 \item{x}{\code{optiPlusModel}. An object of class optiPlusModel.}
@@ -41,5 +41,6 @@ mod <- rfMod(x = x, y = y, cvcol = cv,
 
 plot(mod, type = "obsPred", digits = 3, color = "#00b300")
 plot(mod, type = "importance", color = "#00b300")
+plot(mod, type = "decileProb")
 
 }
