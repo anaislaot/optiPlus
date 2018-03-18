@@ -238,6 +238,7 @@ shinyServer(function(input, output, session) {
     HTML(out)
   })
 
+
   output$graphOP <- renderAmCharts({
     if(is.null(RFGo())){
       return(NULL)
@@ -256,12 +257,52 @@ shinyServer(function(input, output, session) {
     }
   })
 
+  output$residuals <- renderAmCharts({
+    if(is.null(RFGo())){
+      return(NULL)
+    }
+    if(!is.factor(data[, input$SelectY])){
+      plot(RFGo(), type = "residualPlot", digits = 3, color = "#ad33ff")
+    }
+  })
+
+  output$residuals <- renderAmCharts({
+    if(is.null(RFGo())){
+      return(NULL)
+    }
+    if(!is.factor(data[, input$SelectY])){
+      plot(RFGo(), type = "residualPlot", digits = 3, color = "#ad33ff")
+    }
+  })
+
+  output$graphModel <- renderUI({
+
+    if(!is.factor(data[, input$SelectY])){
+    div(
+      fluidRow(
+        column(6, align="center",
+               amChartsOutput("graphOP")
+        ),
+        column(6, align="center",
+               amChartsOutput("varimp"))
+
+
+        , width = 9 ),
+      br(), br(), br(),
+      fluidRow(
+        column(widt=3),
+        column(6, align = "center",
+               amChartsOutput("residuals"))
+
+      )
+
+    )
+    }
+
+  })
 
 
 
-  # output$CV <- renderPrint({
-  #   print(RFGo())
-  # })
 
 })#fin shinserver
 

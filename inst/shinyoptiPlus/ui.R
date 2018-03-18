@@ -165,7 +165,7 @@ shinyUI(fluidPage(
 
                                            class = "boerderB1PX" ),
                                            br(),
-                                           div(h4("Node size : ", class='titlebox'),
+                                           div(h4("Nodesize definition: ", class='titlebox'),
 
                                            conditionalPanel("input.nodesize == false",
                                                             numericInput("selectNodesize", label = "", value = 5, min = 1)
@@ -230,19 +230,12 @@ shinyUI(fluidPage(
 
                           ), width = 9),
                           br(), br(),br(), br(),
-
-                          fluidRow(
-                            column(6, align="center",
-                                   amChartsOutput("graphOP")
-                            ),
-                            column(6, align="center",
-                                   amChartsOutput("varimp"))
-
-
-                            , width = 9 )
+                         uiOutput("graphModel")
 
                         )
-                      )),#fermeture page1
+                      )
+
+                      ),#fermeture page1
                       ####PAGE 3 :
                       tabPanel("Maye your predict"
 
