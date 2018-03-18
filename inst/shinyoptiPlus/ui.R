@@ -12,6 +12,10 @@ shinyUI(fluidPage(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "exabox.css")
   ),
+  singleton(tags$script(src = 'spinner.js')),
+  div(id = "import_busy", tags$img(src= "carLow.gif", height = 100,
+                                   style = "position: fixed;top: 40%;z-index:100;left: 50%;")),
+
   div(class = "footeropti"),
   navbarPage("optiPlus",
 
