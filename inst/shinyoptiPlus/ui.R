@@ -65,18 +65,21 @@ shinyUI(fluidPage(
                                                             numericInput("selectFolds", label = "Select kfold", value = 5,
                                                                          min = 1)
                                            ),
+
                                            conditionalPanel("input.cvcol == 'Select a column'",
                                                             # selectInput("SelectColumn", label = "Select a column", selected = NULL,
                                                             #             choices = names(data))
                                                             pickerInput("SelectColumn",label = "Select a column",selected = NULL,
                                                                         choices = names(data), options = list(style = "btn-primary"))
                                            ),
-                                           h3("Parameters"),
+                                           pickerInput(inputId = "selectCriterion",label = "Select criterion",selected = "RMSE",
+                                                       choices = c("RMSE", "MAPE", "R2", "AUC", "CONF"), options = list(style = "btn-primary")),
+                                           div(h3("Parameters", class='titlebox'),
                                            conditionalPanel("input.ntree == false",
                                                             numericInput("selectNtree", label = "Ntree", value = 500, min = 1)
                                            ),
                                            prettyCheckbox(
-                                             inputId = "ntree", label = "ntree grid", icon = icon("check"), status = "primary"
+                                             inputId = "ntree", label = "ntree grid", icon = icon("check"), status = "info"
                                            ),
                                            conditionalPanel("input.ntree == true",
                                                             dropdownButton(div(
@@ -92,7 +95,7 @@ shinyUI(fluidPage(
                                            ),
 
                                            prettyCheckbox(
-                                             inputId = "mtry", label = "mtry grid", icon = icon("check"), status = "primary"
+                                             inputId = "mtry", label = "mtry grid", icon = icon("check"), status = "info"
                                            ),
                                            conditionalPanel("input.mtry == true",
                                                             dropdownButton(div(
@@ -106,7 +109,7 @@ shinyUI(fluidPage(
                                                             numericInput("selectMaxnodes", label = "Maxnodes", value = 10, min = 1)
                                            ),
                                            prettyCheckbox(
-                                             inputId = "maxnodes", label = "maxnodes grid", icon = icon("check"), status = "primary"
+                                             inputId = "maxnodes", label = "maxnodes grid", icon = icon("check"), status = "info"
                                            ),
                                            conditionalPanel("input.maxnodes == true",
                                                             dropdownButton(div(
@@ -121,7 +124,7 @@ shinyUI(fluidPage(
                                            ),
 
                                            prettyCheckbox(
-                                             inputId = "nodesize", label = "nodesize grid", icon = icon("check"), status = "primary"
+                                             inputId = "nodesize", label = "nodesize grid", icon = icon("check"), status = "info"
                                            ),
                                            conditionalPanel("input.nodesize == true",
                                                             dropdownButton(div(
@@ -130,12 +133,16 @@ shinyUI(fluidPage(
                                                               numericInput("nodesizeBy", label = "By", value = 1),
                                                               style = "color : black"),
                                                               status = "primary", label = "grid", circle = FALSE)
-                                           ),
-                                           pickerInput(inputId = "selectCriterion",label = "Select criterion",selected = "RMSE",
-                                                       choices = c("RMSE", "MAPE", "R2", "AUC", "CONF"), options = list(style = "btn-primary")),
+                                           )
+                                           , class = "divforparam")#fermeture div
+                                           ,
+
+
                                            br(), br(),
+                                           div(
                                            actionBttn(inputId = "GoModel", label = "Launch", style = "gradient",
                                                       color = "primary", icon = icon("thumbs-up"))
+                                           , class= "aligndiv")
 
 
                           )#fin conditionalPanel de la RF

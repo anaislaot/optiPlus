@@ -235,3 +235,13 @@
    z-index: 1234;
    height:20px;
 }
+
+.divforparam{
+  border: 2px solid black;
+  padding-left :2px;
+  padding-right:2px;
+}
+
+.aligndiv{
+  text-align : center;
+}
