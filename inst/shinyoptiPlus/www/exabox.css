@@ -245,3 +245,13 @@
 .aligndiv{
   text-align : center;
 }
+
+
+.boerderTB1PX{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.boerderB1PX{
+  border-bottom: 1px solid black;
+}

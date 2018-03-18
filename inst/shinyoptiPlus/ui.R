@@ -76,66 +76,120 @@ shinyUI(fluidPage(
                                            pickerInput(inputId = "selectCriterion",label = "Select criterion",selected = "RMSE",
                                                        choices = c("RMSE", "MAPE", "R2", "AUC", "CONF"), options = list(style = "btn-primary")),
                                            div(h3("Parameters", class='titlebox'),
-                                           conditionalPanel("input.ntree == false",
-                                                            numericInput("selectNtree", label = "Ntree", value = 500, min = 1)
-                                           ),
-                                           prettyCheckbox(
-                                             inputId = "ntree", label = "ntree grid", icon = icon("check"), status = "info"
-                                           ),
+                                               br(),
+                                               div(h4("Number of trees : ", class='titlebox'),
+
+
+                                               conditionalPanel("input.ntree == false",
+                                                                numericInput("selectNtree", label = "", value = 500, min = 1)
+                                               ),
+                                            column(5, prettyToggle(
+                                                 inputId = "ntree",
+                                                 label_on = "ntree grid",
+                                                 label_off = "ntree grid",
+                                                 icon_on = icon("thumbs-up"),
+                                                 icon_off = icon("thumbs-down"),
+                                                 status_on = "info",
+                                                 status_off = "danger"
+                                               )),
+                                           column(7,
                                            conditionalPanel("input.ntree == true",
                                                             dropdownButton(div(
                                                               numericInput("ntreeMin", label = "Min", value = 100),
                                                               numericInput("ntreeMax", label = "Max", value = 500),
                                                               numericInput("ntreeBy", label = "By", value = 100),
                                                               style = "color : black"),
-                                                              status = "primary", label = "grid", circle = FALSE)
-                                           ),#conditionalPanel Ntreegrid
+                                                              status = "primary", label = "Defined ntree grid", circle = FALSE)
+                                           )),#conditionalPanel Ntreegrid
+                                            br(), br(),
+
+                                              class = "boerderTB1PX" ),
+
+
+                                           br(),
+                                           div(h4("mtry definition : ", class='titlebox'),
 
                                            conditionalPanel("input.mtry == false",
-                                                            numericInput("selectMtry", label = "Mtry", value = 2, min = 1)
+                                                            numericInput("selectMtry", label = "", value = 2, min = 1)
                                            ),
 
-                                           prettyCheckbox(
-                                             inputId = "mtry", label = "mtry grid", icon = icon("check"), status = "info"
-                                           ),
-                                           conditionalPanel("input.mtry == true",
+                                           column(5,prettyToggle(
+                                             inputId = "mtry",
+                                             label_on = "mtry grid",
+                                             label_off = "mtry grid",
+
+                                             icon_on = icon("thumbs-up"),
+                                             icon_off = icon("thumbs-down"),
+                                             status_on = "info",
+                                             status_off = "danger"
+                                           )),
+                                           column(7, conditionalPanel("input.mtry == true",
                                                             dropdownButton(div(
                                                               numericInput("mtryMin", label = "Min", value = 1),
                                                               numericInput("mtryMax", label = "Max", value = 2),
                                                               numericInput("mtryBy", label = "By", value = 1),
                                                               style = "color : black"),
-                                                              status = "primary", label = "grid", circle = FALSE)
-                                           ),
+                                                              status = "primary", label = "Defined mtry grid", circle = FALSE)
+                                           )),
+                                           br(), br(),
+
+                                           class = "boerderB1PX" ),
+
+                                           br(),
+                                           div(h4("maxnodes definition : ", class='titlebox'),
+
+
                                            conditionalPanel("input.maxnodes == false",
-                                                            numericInput("selectMaxnodes", label = "Maxnodes", value = 10, min = 1)
+                                                            numericInput("selectMaxnodes", label = "", value = 10, min = 1)
                                            ),
-                                           prettyCheckbox(
-                                             inputId = "maxnodes", label = "maxnodes grid", icon = icon("check"), status = "info"
-                                           ),
-                                           conditionalPanel("input.maxnodes == true",
+                                           column(5,prettyToggle(
+                                             inputId = "maxnodes",
+                                             label_on = "maxnodes grid",
+                                             label_off = "maxnodes grid",
+                                             icon_on = icon("thumbs-up"),
+                                             icon_off = icon("thumbs-down"),
+                                             status_on = "info",
+                                             status_off = "danger"
+                                           )),
+                                           column(7,conditionalPanel("input.maxnodes == true",
                                                             dropdownButton(div(
                                                               numericInput("maxnodesMin", label = "Min", value = 1),
                                                               numericInput("maxnodesMax", label = "Max", value = 10),
                                                               numericInput("maxnodesBy", label = "By", value = 2),
                                                               style = "color : black"),
-                                                              status = "primary", label = "grid", circle = FALSE)
-                                           ),#conditionalPanel maxnodes
+                                                              status = "primary", label = "Defined maxnodes grid", circle = FALSE)
+                                           )),#conditionalPanel maxnodes
+
+
+                                           br(), br(),
+
+                                           class = "boerderB1PX" ),
+                                           br(),
+                                           div(h4("Node size : ", class='titlebox'),
+
                                            conditionalPanel("input.nodesize == false",
-                                                            numericInput("selectNodesize", label = "Nodesize", value = 5, min = 1)
+                                                            numericInput("selectNodesize", label = "", value = 5, min = 1)
                                            ),
 
-                                           prettyCheckbox(
-                                             inputId = "nodesize", label = "nodesize grid", icon = icon("check"), status = "info"
-                                           ),
-                                           conditionalPanel("input.nodesize == true",
+                                           column(5,prettyToggle(
+                                             inputId = "nodesize",
+                                             label_on = "nodesize grid",
+                                             label_off = "nodesize grid",
+                                             icon_on = icon("thumbs-up"),
+                                             icon_off = icon("thumbs-down"),
+                                             status_on = "info",
+                                             status_off = "danger"
+                                           )),
+                                           column(7,conditionalPanel("input.nodesize == true",
                                                             dropdownButton(div(
                                                               numericInput("nodesizeMin", label = "Min", value = 1),
                                                               numericInput("nodesizeMax", label = "Max", value = 10),
                                                               numericInput("nodesizeBy", label = "By", value = 1),
                                                               style = "color : black"),
-                                                              status = "primary", label = "grid", circle = FALSE)
-                                           )
-                                           , class = "divforparam")#fermeture div
+                                                              status = "primary", label = "Defined nodesize grid", circle = FALSE)
+                                           )),
+                                           br(), br()),
+                                           br(),class = "divforparam")#fermeture div
                                            ,
 
 
