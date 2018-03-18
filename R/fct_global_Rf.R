@@ -97,6 +97,7 @@ rfMod <- function(x, y, cvcol, ntree = 500, mtry=if (!is.null(y) && !is.factor(y
 
   #relancer calcul RMSE, R², AUC..
   modoptim <- .addcrit(criterion, modoptim)
+  modoptim$criterion <- criterion
   modoptim
 }
 

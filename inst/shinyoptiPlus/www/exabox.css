@@ -138,3 +138,21 @@
     background-color: #0099ff;
 }
 
+.form-control {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.form-control:hover{
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+.form-control:focus{
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
