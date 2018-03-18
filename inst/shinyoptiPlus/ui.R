@@ -55,14 +55,14 @@ shinyUI(fluidPage(
                           conditionalPanel("input.selectMethod == 'Random Forest'",
                                            pickerInput("SelectY",label = "Select y",selected = NULL,
                                                        choices = names(data), options = list(style = "btn-primary")),
-                                           radioGroupButtons("cvcol",label = "Do Cross validation :",
+                                           radioGroupButtons("cvcol",label = "Do cross validation :",
                                                              choices = c("By kfolds", "Select a column"), individual = TRUE,
                                                              checkIcon = list(yes = tags$i(class = "fa fa-circle",
                                                                                            style = "color: steelblue"),
                                                                               no = tags$i(class = "fa fa-circle-o",
                                                                                           style = "color: steelblue"))),
                                            conditionalPanel("input.cvcol == 'By kfolds'",
-                                                            numericInput("selectFolds", label = "select Kfold", value = 5,
+                                                            numericInput("selectFolds", label = "Select kfold", value = 5,
                                                                          min = 1)
                                            ),
                                            conditionalPanel("input.cvcol == 'Select a column'",
@@ -148,7 +148,7 @@ shinyUI(fluidPage(
                                    fluidRow(
                                    div(
                                      fluidRow(
-                                   h3("Parameters"),
+                                   h3("Parameters ", class='titlebox'),
                                    uiOutput("boxparam")
                                      )
                                    , class = 'myParamDiv')
@@ -157,8 +157,14 @@ shinyUI(fluidPage(
 
 
                             column(5, align="center",
-                                   h3("Scores"),
+                                   fluidRow(
+                                     div(
+                                       fluidRow(
+                                   h3("Scores", class='titlebox'),
                                    uiOutput("boxscore")
+                                       )
+                                   , class = 'myParamDiv2')
+                                   )
 
                           ), width = 9),
 
