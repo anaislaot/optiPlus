@@ -26,8 +26,18 @@ shinyUI(fluidPage(
                           #             choices = names(data)),
                           pickerInput("selectDesc",label = "Select among the list",selected = NULL,
                                       choices = names(data), options = list(style = "btn-primary")),
-                          prettyCheckbox(inputId = "var2check", label = "Select another variable",
-                                         icon = icon("check"),status = "primary"),
+                          prettyToggle(inputId = "var2check",
+                                         label_on = "Select another variable",
+                                         label_off = "Select another variable",
+                                         icon_on = icon("check"),
+                                         icon_off = icon("remove"),
+                                         status_on = "primary",
+                                         status_off = "danger"),
+
+
+
+
+
                           conditionalPanel("input.var2check == true",
                                            pickerInput("selectDesc2", label = "Select another variable among the list", selected = NULL,
                                                        choices = names(data), options = list(style = "btn-primary"))
