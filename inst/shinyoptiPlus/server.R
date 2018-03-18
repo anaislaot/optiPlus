@@ -204,7 +204,7 @@ shinyServer(function(input, output, session) {
     if(is.null(RFGo()))return(NULL)
     resScore <- RFGo()
     resScore <- resScore[(names(resScore)%in%c("param"))]
-    resScore <- as.data.frame(resScore)
+    resScore <- as.data.frame(resScore$param)
     resScore <- round(resScore, 3)
 
 
