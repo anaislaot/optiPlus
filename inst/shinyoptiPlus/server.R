@@ -210,8 +210,10 @@ shinyServer(function(input, output, session) {
 
     out <- ""
     for(i in 1:length(resScore)){
+
       out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = "thunParam.png",
-                                width = 3))
+                                width = 3, color = "paramCol"))
+
     }
 
       HTML(out)
@@ -228,9 +230,9 @@ shinyServer(function(input, output, session) {
 
     out <- ""
     for(i in 1:length(resScore)){
-      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i],
-                                icon = ifelse(names(resScore)[i] == RFGo()$criterion, "mainSco.png", "gear.png"),
-                                width = 4))
+      out <- paste0(out, exaBox(title = names(resScore)[i], value = resScore[i], icon = ifelse(names(resScore)[i] == RFGo()$criterion, "mainSco.png", "gear.png"),
+                                width = 4, color = "scoreCol"))
+
     }
 
     HTML(out)
